@@ -35,7 +35,13 @@ function patch(req, res) {
 }
 
 function destroy(req, res) {
-  res.send("delete");
+  const id = req.params.id;
+  const sqlDelete = `DELETE FROM posts WHERE id = ?`;
+
+  connection.query(sqlDelete, [id], (req, res) => {
+    if (err) return res.status(500).json({ error: `failed to delete post` });
+    res.sendStatud(204);
+  });
 }
 
 module.exports = { index, show, create, update, patch, destroy };
